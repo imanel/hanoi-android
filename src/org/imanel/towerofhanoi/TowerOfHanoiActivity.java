@@ -133,28 +133,25 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
     private void checkForCollisionsWithTowers(Ring ring) {
         Stack stack = null;
         Sprite tower = null;
-        if (ring.collidesWith(tower1) && (stack1.size() == 0 || ring.getHeight() < ((Ring) stack1.peek()).getHeight())) {
+        if (ring.collidesWith(tower1) && ring.canBeAddedToStack(stack1)) {
             stack = stack1;
             tower = tower1;
-        } else if (ring.collidesWith(tower2) && (stack2.size() == 0 || ring.getHeight() < ((Ring) stack2.peek()).getHeight())) {
+        } else if (ring.collidesWith(tower2) && ring.canBeAddedToStack(stack2)) {
             stack = stack2;
             tower = tower2;
-        } else if (ring.collidesWith(tower3) && (stack3.size() == 0 || ring.getHeight() < ((Ring) stack3.peek()).getHeight())) {
+        } else if (ring.collidesWith(tower3) && ring.canBeAddedToStack(stack3)) {
             stack = stack3;
             tower = tower3;
         } else {
             stack = ring.getStack();
             tower = ring.getTower();
         }
-        ring.getStack().remove(ring);
-        if (stack != null && tower !=null && stack.size() == 0) {
-            ring.setPosition(tower.getX() + tower.getWidth()/2 - ring.getWidth()/2, tower.getY() + tower.getHeight() - ring.getHeight());
-        } else if (stack != null && tower !=null && stack.size() > 0) {
-            ring.setPosition(tower.getX() + tower.getWidth()/2 - ring.getWidth()/2, ((Ring) stack.peek()).getY() - ring.getHeight());
-        }
-        stack.add(ring);
-        ring.setStack(stack);
-        ring.setTower(tower);
+//        ring.getStack().remove(ring);
+//        ring.setPositionFor(tower, stack);
+//        stack.add(ring);
+//        ring.setStack(stack);
+//        ring.setTower(tower);
+        ring.addTo(tower, stack);
     }
     
     private ITexture preloadTexture(final String url) throws IOException {
