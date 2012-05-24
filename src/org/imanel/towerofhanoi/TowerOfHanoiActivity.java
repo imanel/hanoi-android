@@ -18,6 +18,7 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
 
+@SuppressWarnings("rawtypes")
 public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
     private static int CAMERA_WIDTH = 800;
     private static int CAMERA_HEIGHT = 480;
@@ -60,7 +61,7 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
         stack1 = new Stack();
         stack2 = new Stack();
         stack3 = new Stack();
-        
+
         tower1 = new Sprite(192, 63, towerTextureRegion, getVertexBufferObjectManager());
         tower2 = new Sprite(400, 63, towerTextureRegion, getVertexBufferObjectManager());
         tower3 = new Sprite(604, 63, towerTextureRegion, getVertexBufferObjectManager());
@@ -82,15 +83,15 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
 
         return scene;
     }
-    
+
     private ITexture preloadTexture(final String url) throws IOException {
-    	ITexture texture = new BitmapTexture(getTextureManager(), new IInputStreamOpener() {
+        ITexture texture = new BitmapTexture(getTextureManager(), new IInputStreamOpener() {
             @Override
             public InputStream open() throws IOException {
                 return getAssets().open(url);
             }
         });
-    	texture.load();
-    	return texture;
+        texture.load();
+        return texture;
     }
 }
