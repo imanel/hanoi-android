@@ -2,6 +2,7 @@ package org.imanel.towerofhanoi;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Stack;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -9,6 +10,7 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -22,6 +24,7 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
 	private static int CAMERA_HEIGHT = 480;
 	private ITextureRegion mBackgroundTextureRegion, mTowerTextureRegion, mRing1, mRing2, mRing3;
 	private Sprite mTower1, mTower2, mTower3;
+	private Stack mStack1, mStack2, mStack3;
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -93,13 +96,95 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
 		scene.attachChild(mTower2);
 		scene.attachChild(mTower3);
 		
-		Ring ring1 = new Ring(1, 139, 174, this.mRing1, getVertexBufferObjectManager());
-		Ring ring2 = new Ring(2, 118, 212, this.mRing2, getVertexBufferObjectManager());
-		Ring ring3 = new Ring(3, 97, 255, this.mRing3, getVertexBufferObjectManager());
+		Ring ring1 = new Ring(1, 139, 174, this.mRing1, getVertexBufferObjectManager()) {
+		    @Override
+		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		        if (((Ring) this.getmStack().peek()).getmWeight() != this.getmWeight())
+		            return false;
+		        this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2, 
+		            pSceneTouchEvent.getY() - this.getHeight() / 2);
+		        if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+		            checkForCollisionsWithTowers(this);
+		        }
+		        return true;
+		    }
+		};
+		Ring ring2 = new Ring(2, 118, 212, this.mRing2, getVertexBufferObjectManager()) {
+		    @Override
+		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		        if (((Ring) this.getmStack().peek()).getmWeight() != this.getmWeight())
+		            return false;
+		        this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2, 
+		            pSceneTouchEvent.getY() - this.getHeight() / 2);
+		        if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+		            checkForCollisionsWithTowers(this);
+		        }
+		        return true;
+		    }
+		};
+		Ring ring3 = new Ring(3, 97, 255, this.mRing3, getVertexBufferObjectManager()) {
+		    @Override
+		    public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+		        if (((Ring) this.getmStack().peek()).getmWeight() != this.getmWeight())
+		            return false;
+		        this.setPosition(pSceneTouchEvent.getX() - this.getWidth() / 2, 
+		            pSceneTouchEvent.getY() - this.getHeight() / 2);
+		        if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_UP) {
+		            checkForCollisionsWithTowers(this);
+		        }
+		        return true;
+		    }
+		};
 		scene.attachChild(ring1);
 		scene.attachChild(ring2);
 		scene.attachChild(ring3);
 		
+		this.mStack1 = new Stack();
+		this.mStack2 = new Stack();
+		this.mStack3 = new Stack();
+		this.mStack1.add(ring3);
+		this.mStack1.add(ring2);
+		this.mStack1.add(ring1);
+		
+		ring1.setmStack(mStack1);
+		ring2.setmStack(mStack1);
+		ring3.setmStack(mStack1);
+		ring1.setmTower(mTower1);
+		ring2.setmTower(mTower1);
+		ring3.setmTower(mTower1);
+		
+		scene.registerTouchArea(ring1);
+		scene.registerTouchArea(ring2);
+		scene.registerTouchArea(ring3);
+		scene.setTouchAreaBindingOnActionDownEnabled(true);
+		
 		return scene;
+	}
+	
+	private void checkForCollisionsWithTowers(Ring ring) {
+	    Stack stack = null;
+	    Sprite tower = null;
+	    if (ring.collidesWith(mTower1) && (mStack1.size() == 0 || ring.getmWeight() < ((Ring) mStack1.peek()).getmWeight())) {
+	        stack = mStack1;
+	        tower = mTower1;
+	    } else if (ring.collidesWith(mTower2) && (mStack2.size() == 0 || ring.getmWeight() < ((Ring) mStack2.peek()).getmWeight())) {
+	        stack = mStack2;
+	        tower = mTower2;
+	    } else if (ring.collidesWith(mTower3) && (mStack3.size() == 0 || ring.getmWeight() < ((Ring) mStack3.peek()).getmWeight())) {
+	        stack = mStack3;
+	        tower = mTower3;
+	    } else {
+	        stack = ring.getmStack();
+	        tower = ring.getmTower();
+	    }
+	    ring.getmStack().remove(ring);
+	    if (stack != null && tower !=null && stack.size() == 0) {
+	        ring.setPosition(tower.getX() + tower.getWidth()/2 - ring.getWidth()/2, tower.getY() + tower.getHeight() - ring.getHeight());
+	    } else if (stack != null && tower !=null && stack.size() > 0) {
+	        ring.setPosition(tower.getX() + tower.getWidth()/2 - ring.getWidth()/2, ((Ring) stack.peek()).getY() - ring.getHeight());
+	    }
+	    stack.add(ring);
+	    ring.setmStack(stack);
+	    ring.setmTower(tower);
 	}
 }
