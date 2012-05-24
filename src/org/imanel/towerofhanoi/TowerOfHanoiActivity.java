@@ -146,11 +146,6 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
             stack = ring.getStack();
             tower = ring.getTower();
         }
-//        ring.getStack().remove(ring);
-//        ring.setPositionFor(tower, stack);
-//        stack.add(ring);
-//        ring.setStack(stack);
-//        ring.setTower(tower);
         ring.addTo(tower, stack);
     }
     
