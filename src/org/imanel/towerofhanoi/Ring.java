@@ -5,7 +5,6 @@ import java.util.Stack;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 public class Ring extends Sprite {
     private int weight;

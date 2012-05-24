@@ -10,7 +10,6 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
@@ -69,9 +68,9 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
         scene.attachChild(tower2);
         scene.attachChild(tower3);
 
-        Ring ring1 = new Ring(1, tower1, stack1, ring1TextureRegion, this);
-        Ring ring2 = new Ring(2, tower1, stack1, ring2TextureRegion, this);
         Ring ring3 = new Ring(3, tower1, stack1, ring3TextureRegion, this);
+        Ring ring2 = new Ring(2, tower1, stack1, ring2TextureRegion, this);
+        Ring ring1 = new Ring(1, tower1, stack1, ring1TextureRegion, this);
         scene.attachChild(ring1);
         scene.attachChild(ring2);
         scene.attachChild(ring3);
