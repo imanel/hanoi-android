@@ -13,7 +13,7 @@ public class Ring extends Sprite {
 
     public Ring(int w, float pX, float pY, ITextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager) {
         super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
-        this.weight = w;
+        weight = w;
     }
 
     public int getWeight() {
@@ -25,7 +25,7 @@ public class Ring extends Sprite {
     }
 
     public void setStack(Stack s) {
-        this.stack = s;
+        stack = s;
     }
 
     public Sprite getTower() {
@@ -33,6 +33,6 @@ public class Ring extends Sprite {
     }
 
     public void setTower(Sprite t) {
-        this.tower = t;
+        tower = t;
     }
 }
