@@ -35,42 +35,11 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
     @Override
     protected void onCreateResources() {
         try {
-            ITexture backgroundTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-                @Override
-                public InputStream open() throws IOException {
-                    return getAssets().open("gfx/background.png");
-                }
-            });
-            ITexture towerTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-                @Override
-                public InputStream open() throws IOException {
-                    return getAssets().open("gfx/tower.png");
-                }
-            });
-            ITexture ring1Texture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-                @Override
-                public InputStream open() throws IOException {
-                    return getAssets().open("gfx/ring1.png");
-                }
-            });
-            ITexture ring2Texture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-                @Override
-                public InputStream open() throws IOException {
-                    return getAssets().open("gfx/ring2.png");
-                }
-            });
-            ITexture ring3Texture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-                @Override
-                public InputStream open() throws IOException {
-                    return getAssets().open("gfx/ring3.png");
-                }
-            });
-
-            backgroundTexture.load();
-            towerTexture.load();
-            ring1Texture.load();
-            ring2Texture.load();
-            ring3Texture.load();
+            ITexture backgroundTexture = preloadTexture("gfx/background.png");
+            ITexture towerTexture = preloadTexture("gfx/tower.png");
+            ITexture ring1Texture = preloadTexture("gfx/ring1.png");
+            ITexture ring2Texture = preloadTexture("gfx/ring2.png");
+            ITexture ring3Texture = preloadTexture("gfx/ring3.png");
 
             this.backgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
             this.towerTextureRegion = TextureRegionFactory.extractFromTexture(towerTexture);
@@ -186,5 +155,16 @@ public class TowerOfHanoiActivity extends SimpleBaseGameActivity {
         stack.add(ring);
         ring.setStack(stack);
         ring.setTower(tower);
+    }
+    
+    private ITexture preloadTexture(final String url) throws IOException {
+    	ITexture texture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
+            @Override
+            public InputStream open() throws IOException {
+                return getAssets().open(url);
+            }
+        });
+    	texture.load();
+    	return texture;
     }
 }
