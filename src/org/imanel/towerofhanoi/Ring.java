@@ -85,6 +85,7 @@ public class Ring extends Sprite {
     private void checkForCollisionsWithTowers() {
         Stack s = null;
         Sprite t = null;
+        parent.points++;
         if (collidesWith(parent.tower1) && canBeAddedToStack(parent.stack1)) {
             s = parent.stack1;
             t = parent.tower1;
@@ -95,9 +96,11 @@ public class Ring extends Sprite {
             s = parent.stack3;
             t = parent.tower3;
         } else {
+            parent.points--;
             s = getStack();
             t = getTower();
         }
         addTo(t, s);
+        parent.checkResult();
     }
 }
