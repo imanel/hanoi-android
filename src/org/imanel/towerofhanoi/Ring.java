@@ -7,32 +7,32 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 public class Ring extends Sprite {
-	private int mWeight;
-    private Stack mStack;
-    private Sprite mTower;
- 
-    public Ring(int weight, float pX, float pY, ITextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager) {
+    private int weight;
+    private Stack stack;
+    private Sprite tower;
+
+    public Ring(int w, float pX, float pY, ITextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager) {
         super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
-        this.mWeight = weight;
+        this.weight = w;
     }
- 
-    public int getmWeight() {
-        return mWeight;
+
+    public int getWeight() {
+        return weight;
     }
- 
-    public Stack getmStack() {
-        return mStack;
+
+    public Stack getStack() {
+        return stack;
     }
- 
-    public void setmStack(Stack mStack) {
-        this.mStack = mStack;
+
+    public void setStack(Stack s) {
+        this.stack = s;
     }
- 
-    public Sprite getmTower() {
-        return mTower;
+
+    public Sprite getTower() {
+        return tower;
     }
- 
-    public void setmTower(Sprite mTower) {
-        this.mTower = mTower;
+
+    public void setTower(Sprite t) {
+        this.tower = t;
     }
 }
